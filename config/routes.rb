@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  root 'postcode_checker#index'
+  resources :postcode_checker, only: %i[create index], path: '/'
 end
