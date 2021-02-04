@@ -16,6 +16,6 @@ class PostcodeCheckerController < ApplicationController
   end
 
   def postcode_is_valid?
-    PostcodeValidator.new(postcode: postcode).valid?
+    Postcodes::Validator.new(postcode: postcode).valid?
   end
 end

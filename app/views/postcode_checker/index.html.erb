@@ -1,9 +1,3 @@
 <H3>Postcode Checker</H3>
 
-<div class="postcode-entry-form">
-  <%= form_for :postcode_checker_index, method: :post do |form| %>
-    <%= form.label :postcode, "Enter your postcode to see if you're covered:" %>
-    <%= form.text_field :postcode %>
-    <%= form.submit "Search" %>
-  <% end %>
-</div>
+<%= render 'postcode_checker/partials/postcode_form' %>

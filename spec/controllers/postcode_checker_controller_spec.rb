@@ -19,7 +19,7 @@ RSpec.describe PostcodeCheckerController, type: :controller do
       before do
         invalid_postcode = 'B 123'
         postcode_validator = instance_double('PostcodeValidator', valid?: false)
-        allow(PostcodeValidator).to receive(:new).with(postcode: invalid_postcode).and_return postcode_validator
+        allow(Postcodes::Validator).to receive(:new).with(postcode: invalid_postcode).and_return postcode_validator
         post :create, params: { postcode_checker_index: { postcode: invalid_postcode } }
       end
 

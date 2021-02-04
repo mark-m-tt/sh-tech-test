@@ -2,13 +2,13 @@
 
 require 'rails_helper'
 
-RSpec.describe PostcodeValidator do
+RSpec.describe Postcodes::Validator do
   describe '#initialize' do
-    it 'strips the given postcode of non alphanumeric characters and adds a space where required' do
+    it 'strips the given postcode of non alphanumeric characters' do
       postcode = 'AA9A%^*£"$$"9AA'
       validator = described_class.new(postcode: postcode)
 
-      expect(validator.instance_variable_get(:@postcode)).to eq 'AA9A 9AA'
+      expect(validator.instance_variable_get(:@postcode)).to eq 'AA9A9AA'
     end
 
     it 'does not error when the string is empty' do
@@ -61,6 +61,10 @@ RSpec.describe PostcodeValidator do
 
       it 'returns false when it does not end with an integer and two letters' do
         expect(valid?(postcode: 'AA99 99A')).not_to be_truthy
+      end
+
+      it 'returns false when the string is empty' do
+        expect(valid?(postcode: '')).not_to be_truthy
       end
     end
   end
