@@ -4,13 +4,6 @@ require 'rails_helper'
 
 RSpec.describe Postcodes::Validator do
   describe '#initialize' do
-    it 'strips the given postcode of non alphanumeric characters' do
-      postcode = 'AA9A%^*£"$$"9AA'
-      validator = described_class.new(postcode: postcode)
-
-      expect(validator.instance_variable_get(:@postcode)).to eq 'AA9A9AA'
-    end
-
     it 'does not error when the string is empty' do
       empty_string = ''
       validator = described_class.new(postcode: empty_string)
@@ -21,28 +14,28 @@ RSpec.describe Postcodes::Validator do
 
   describe '#valid?' do
     context 'with a valid postcode' do
-      it 'accepts postcodes of the format AA9A 9AA' do
-        expect(valid?(postcode: 'AA9A 9AA')).to be_truthy
+      it 'accepts postcodes of the format AA9A9AA' do
+        expect(valid?(postcode: 'AA9A9AA')).to be_truthy
       end
 
-      it 'accepts postcodes of the format A9A 9AA' do
-        expect(valid?(postcode: 'A9A 9AA')).to be_truthy
+      it 'accepts postcodes of the format A9A9AA' do
+        expect(valid?(postcode: 'A9A9AA')).to be_truthy
       end
 
-      it 'accepts postcodes of the format A9 9AA' do
-        expect(valid?(postcode: 'A9 9AA')).to be_truthy
+      it 'accepts postcodes of the format A99AA' do
+        expect(valid?(postcode: 'A99AA')).to be_truthy
       end
 
-      it 'accepts postcodes of the format A99 9AA' do
-        expect(valid?(postcode: 'A99 9AA')).to be_truthy
+      it 'accepts postcodes of the format A999AA' do
+        expect(valid?(postcode: 'A999AA')).to be_truthy
       end
 
-      it 'accepts postcodes of the format AA9 9AA' do
-        expect(valid?(postcode: 'AA9 9AA')).to be_truthy
+      it 'accepts postcodes of the format AA99AA' do
+        expect(valid?(postcode: 'AA99AA')).to be_truthy
       end
 
-      it 'accepts postcodes of the format AA99 9AA' do
-        expect(valid?(postcode: 'AA99 9AA')).to be_truthy
+      it 'accepts postcodes of the format AA999AA' do
+        expect(valid?(postcode: 'AA999AA')).to be_truthy
       end
     end
 
@@ -52,7 +45,7 @@ RSpec.describe Postcodes::Validator do
       end
 
       it 'returns false when the postcode is too short' do
-        expect(valid?(postcode: 'A 9AA')).not_to be_truthy
+        expect(valid?(postcode: 'A9AA')).not_to be_truthy
       end
 
       it 'returns false when the postcode is too long' do

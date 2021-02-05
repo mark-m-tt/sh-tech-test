@@ -5,7 +5,7 @@
 module Postcodes
   class Validator
     def initialize(postcode:)
-      @postcode = postcode.gsub(/[^0-9a-z]/i, '') # remove non alpha-numeric
+      @postcode = postcode
     end
 
     def valid?
