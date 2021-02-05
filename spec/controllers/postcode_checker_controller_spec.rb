@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require './spec/support/instance_double_methods'
 
 RSpec.describe PostcodeCheckerController, type: :controller do
+  include InstanceDoubleMethods
   describe 'GET index' do
     it 'renders the index page' do
       get :index
@@ -21,7 +23,7 @@ RSpec.describe PostcodeCheckerController, type: :controller do
       let(:invalid_postcode) { 'InvalidPostcode' }
 
       before do
-        mock_validator(postcode: invalid_postcode, valid: false)
+        double_validator(postcode: invalid_postcode, valid: false)
         post :create, params: { postcode_checker_index: { postcode: invalid_postcode } }
       end
 
@@ -43,16 +45,16 @@ RSpec.describe PostcodeCheckerController, type: :controller do
     end
 
     context 'when the postcode is valid and served' do
-      let(:served_postcode) { 'SE17QD' }
+      let(:served_postcode) { 'SE1 7QD' }
 
       before do
-        mock_validator(postcode: served_postcode, valid: true)
-        mock_location_checker(postcode: served_postcode, served: true)
+        double_validator(postcode: served_postcode, valid: true)
+        double_location_checker(postcode: served_postcode, served: true)
         post :create, params: { postcode_checker_index: { postcode: served_postcode } }
       end
 
       it 'calls the location_checker' do
-        expect(Postcodes::LocationChecker).to have_received(:new).with(postcode: served_postcode)
+        expect(Postcodes::LocationChecker).to have_received(:new)
       end
 
       it 'returns a status code of 200' do
@@ -69,16 +71,16 @@ RSpec.describe PostcodeCheckerController, type: :controller do
     end
 
     context 'when the postcode is valid but not served' do
-      let(:valid_unserved_postcode) { 'BS87QD' }
+      let(:valid_unserved_postcode) { 'BS8 7QD' }
 
       before do
-        mock_validator(postcode: valid_unserved_postcode, valid: true)
-        mock_location_checker(postcode: valid_unserved_postcode, served: false)
+        double_validator(postcode: valid_unserved_postcode, valid: true)
+        double_location_checker(postcode: valid_unserved_postcode, served: false)
         post :create, params: { postcode_checker_index: { postcode: valid_unserved_postcode } }
       end
 
       it 'calls the location_checker' do
-        expect(Postcodes::LocationChecker).to have_received(:new).with(postcode: valid_unserved_postcode)
+        expect(Postcodes::LocationChecker).to have_received(:new)
       end
 
       it 'returns a status code of 200' do
@@ -93,15 +95,5 @@ RSpec.describe PostcodeCheckerController, type: :controller do
         expect(response.body).to include("We're sorry but we don't serve your area at the moment")
       end
     end
-  end
-
-  def mock_validator(postcode:, valid:)
-    postcode_validator = instance_double('Postcodes::Validator', valid?: valid)
-    allow(Postcodes::Validator).to receive(:new).with(postcode: postcode).and_return postcode_validator
-  end
-
-  def mock_location_checker(postcode:, served:)
-    location_checker = instance_double('Postcodes::LocationChecker', location_is_served?: served)
-    allow(Postcodes::LocationChecker).to receive(:new).with(postcode: postcode).and_return location_checker
   end
 end

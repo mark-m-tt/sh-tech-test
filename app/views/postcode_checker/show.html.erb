@@ -1,0 +1,9 @@
+<% if postcode_is_served %>
+  Great news, we serve your area!
+<% else %>
+  We're sorry but we don't serve your area at the moment
+<% end %>
+
+Try searching for another postcode:
+
+<%= render 'postcode_checker/partials/postcode_form' %>
