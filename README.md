@@ -33,7 +33,7 @@ Documentation for the Postcodes.io API can be found at http://postcodes.io
 ## Up and running
 
 ```
-$ git clone git@github.com:mark-m-tt/sh-tt.git
+$ git clone git@github.com:mark-m-tt/sh-tech-test.git
 $ cd sh-tt
 $ bundle install
 ```
