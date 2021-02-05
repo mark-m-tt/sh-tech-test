@@ -12,9 +12,6 @@ AllCops:
     - 'config/**/*'
     - 'node_modules/**/*'
 
-Metrics/LineLength:
-  Max: 120
-
 Metrics/BlockLength:
   Exclude:
     - config/**/*
@@ -25,4 +22,7 @@ Lint/AmbiguousBlockAssociation:
     - spec/**/*
 
 Style/Documentation:
+  Enabled: false
+
+RSpec/ExampleLength:
   Enabled: false
