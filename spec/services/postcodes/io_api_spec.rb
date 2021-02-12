@@ -13,4 +13,16 @@ RSpec.describe Postcodes::IoApi do
       expect(described_class.new(postcode: test_postcode).data).to eq expected
     end
   end
+
+  describe '#perform' do
+    it 'returns the data in an appropriate format' do
+      test_postcode = 'SW1A2AA'
+      expected_response = {
+        status: 200,
+        postcode: 'SW1A 2AA',
+        lsoa: 'Westminster 018C'
+      }
+      expect(described_class.new(postcode: test_postcode).perform).to eq expected_response
+    end
+  end
 end
